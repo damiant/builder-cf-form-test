@@ -13,6 +13,36 @@
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
+		const { pathname } = new URL(request.url);
+		// Allow CORS from any domain
+		const corsHeaders = {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': 'POST, OPTIONS',
+			'Access-Control-Allow-Headers': '*',
+		};
+		// Handle preflight OPTIONS request
+		if (request.method === 'OPTIONS') {
+			return new Response(null, { status: 204, headers: corsHeaders });
+		}
+		// Handle requests to /form
+		if (pathname === '/form' && request.method === 'POST') {
+			// Log the posted body
+			try {
+				const body = await request.text();
+				console.log('Posted body:', body);
+
+				// Return a 200 response with CORS headers
+				return new Response('Body logged successfully', {
+					status: 200,
+					headers: corsHeaders,
+				});
+			} catch (error) {
+				console.error('Error reading body:', error);
+				return new Response('Error reading body', { status: 500 });
+			}
+		}
+
+		// Default response for other paths
 		return new Response('Hello World!');
 	},
 } satisfies ExportedHandler<Env>;
