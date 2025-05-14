@@ -22,7 +22,7 @@ export default {
 		};
 		// Handle preflight OPTIONS request
 		if (request.method === 'OPTIONS') {
-			return new Response(null, { status: 204, headers: corsHeaders });
+			return new Response(null, { status: 200, headers: corsHeaders });
 		}
 		// Handle requests to /form
 		if (pathname === '/form' && request.method === 'POST') {
