@@ -32,7 +32,7 @@ export default {
 				console.log('Posted body:', body);
 
 				// Return a 200 response with CORS headers
-				return new Response('Body logged successfully', {
+				return new Response(body, {
 					status: 200,
 					headers: corsHeaders,
 				});
